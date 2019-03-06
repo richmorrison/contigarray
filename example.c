@@ -8,9 +8,9 @@ int main(void)
 
     int ndims = 3;
     int dimx = 3, dimy = 3, dimz = 3;
-    size_t dims[] = {dimx,dimy,dimz};
 
-    int*** array = (int***) calloc_nD_array(dims, ndims, sizeof(int));
+    /* Use calloc_nD_array() if the number of dimensions is not known until runtime */
+    int*** array = (int***) calloc_nD_array_va(sizeof(int), ndims, dimx, dimy, dimz);
 
     if(array==NULL)
     {

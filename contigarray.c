@@ -1,5 +1,6 @@
 #include "contigarray.h"
 #include <stdlib.h>
+#include <stdarg.h>
 
 
 /* Headers for private functions */
@@ -62,6 +63,43 @@ void* calloc_nD_array(size_t* dims, unsigned int nDims, size_t element_size)
 }
 
 
+
+/*
+   Create an N dimensional array
+
+element_size    : Size of array elements
+nDims           : Number of array dimensions
+...             : Dimension sizes
+
+Returns void pointer to array.
+Return NULL on error to resemble calloc/malloc behaviour
+
+Use calloc_nD_array() if the number of dimensions is not known until runtime.
+*/
+void* calloc_nD_array_va(size_t element_size, unsigned int nDims, ...)
+{
+    if(nDims==0) return NULL;
+
+    size_t* dims = calloc(nDims, sizeof(size_t));
+
+    if(dims==NULL) return NULL;
+
+    va_list ap;
+    va_start(ap, nDims);
+
+    void* array=NULL;
+
+    for(int dim=0; dim<nDims; dim++)
+        dims[dim] = (size_t) va_arg(ap, size_t);
+
+    va_end(ap);
+
+    array = calloc_nD_array(dims, nDims, element_size);
+
+    free(dims);
+
+    return array;
+}
 
 /*
    Free N dimensional array

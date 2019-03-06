@@ -19,6 +19,22 @@ void* calloc_nD_array(size_t* dims, unsigned int nDims, size_t element_size);
 
 
 /*
+   Create an N dimensional array
+
+element_size    : Size of array elements
+nDims           : Number of array dimensions
+...             : Dimension sizes
+
+Returns void pointer to array.
+Return NULL on error to resemble calloc/malloc behaviour
+
+Use calloc_nD_array() if the number of dimensions is not known until runtime.
+*/
+void* calloc_nD_array_va(size_t element_size, unsigned int nDims, ...);
+
+
+
+/*
    Free N dimensional array
 
 array           : Pointer to array
